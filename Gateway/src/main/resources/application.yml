@@ -1,0 +1,28 @@
+server:
+  port: 8889
+spring:
+  application:
+    name: cloud-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: cloudclient1
+          uri: lb://cloudclient1
+          predicates:
+            - Path=/api/cloudclient1/**
+          filters:
+            - StripPrefix=2
+        - id: cloudclient2
+          uri: lb://cloudclient2
+          predicates:
+            - Path=/api/cloudclient2/**
+          filters:
+            - StripPrefix=2
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
